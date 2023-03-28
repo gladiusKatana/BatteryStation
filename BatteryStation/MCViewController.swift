@@ -1,4 +1,4 @@
-import UIKit; import MultipeerConnectivity
+import UIKit; import SwiftUI; import MultipeerConnectivity
 
 class MCViewController: UIViewController, MCSessionDelegate, MCBrowserViewControllerDelegate {
     
@@ -7,7 +7,8 @@ class MCViewController: UIViewController, MCSessionDelegate, MCBrowserViewContro
     var mcBrowser: MCBrowserViewController?
     var mcAdvertiserAssistant: MCAdvertiserAssistant!
     
-    var isHost = true
+//    var isHost = true
+    @AppStorage("settingActivated") var isHost_UserDefaultsSetting = Bool()
     
     var batteryStateString = ""
     var batteryState: UIDevice.BatteryState { UIDevice.current.batteryState }
@@ -21,7 +22,7 @@ class MCViewController: UIViewController, MCSessionDelegate, MCBrowserViewContro
         mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
         mcSession.delegate = self
         
-        if isHost {
+        if isHost_UserDefaultsSetting {
             let hostAction = UIAlertAction(title: "hosting session", style: .default)
             startHosting(action: hostAction) // stopHosting(action: action)
         } else {
@@ -31,6 +32,16 @@ class MCViewController: UIViewController, MCSessionDelegate, MCBrowserViewContro
         
         NotificationCenter.default.addObserver(self, selector: #selector(batteryLevelDidChange), name: UIDevice.batteryLevelDidChangeNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(batteryStateDidChange), name: UIDevice.batteryStateDidChangeNotification, object: nil)
+        
+        let swiftUIView = SomeSwiftUIView() // swiftUIView is View
+        let childView = UIHostingController(rootView: swiftUIView)
+        
+        childView.view.backgroundColor = .purple
+        
+        addChild(childView)
+        childView.view.frame = self.view.bounds
+        self.view.addSubview(childView.view)
+        childView.didMove(toParent: self)
     }
     
     @objc func batteryLevelDidChange(_ notification: Notification) {    //print("\n\nBATTERY LEVEL:\n\(batteryLevel * 100)\n")
@@ -125,5 +136,21 @@ class MCViewController: UIViewController, MCSessionDelegate, MCBrowserViewContro
     
     func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
         dismiss(animated: true)
+    }
+}
+
+struct SomeSwiftUIView : View {
+    @AppStorage("settingActivated") var isHost_UserDefaultsSetting = true
+    
+    var body: some View {
+        Form {
+            
+            Toggle("is host device?", isOn: $isHost_UserDefaultsSetting)
+                .onChange(of: isHost_UserDefaultsSetting) { value in
+                    print("\nupdated isHost setting to \(value)\n")
+                }
+                .tint(.orange)
+            
+        }
     }
 }
