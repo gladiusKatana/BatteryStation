@@ -16,10 +16,8 @@ class MCViewController: UIViewController, MCSessionDelegate, MCBrowserViewContro
         NotificationCenter.default.addObserver(self, selector: #selector(batteryLevelDidChange), name: UIDevice.batteryLevelDidChangeNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(batteryStateDidChange), name: UIDevice.batteryStateDidChangeNotification, object: nil)
         setupIDAndSession()
-        let hostAction = UIAlertAction(title: "hosting session", style: .default)
-        self.startHosting(action: hostAction)
-        let joinAction = UIAlertAction(title: "joining session", style: .default)
-        self.joinSession(action: joinAction)
+        startAdvertising(action: UIAlertAction(title: "advertising session", style: .default))
+        browseForConnections(action: UIAlertAction(title: "joining session", style: .default))
     }
     
     override func viewWillAppear(_ animated: Bool) { print("viewWillAppear ... connected peers: \(mcSession != nil ? "\(connectedPeers)" : "[nil because mcSession is nil]")")
@@ -33,12 +31,12 @@ class MCViewController: UIViewController, MCSessionDelegate, MCBrowserViewContro
         mcSession.delegate = self
     }
     
-    func startHosting(action: UIAlertAction!) { //print("starting hosting")
+    func startAdvertising(action: UIAlertAction!) { //print("started advertising")
         mcAdvertiserAssistant = MCAdvertiserAssistant(serviceType: "hws-kb", discoveryInfo: nil, session: mcSession) // _hws-kb._tcp
         mcAdvertiserAssistant.start()
     }
     
-    func joinSession(action: UIAlertAction!) {
+    func browseForConnections(action: UIAlertAction!) {
         mcBrowser = MCBrowserViewController(serviceType: "hws-kb", session: mcSession)
         guard let mcBrowser = mcBrowser else { return }
         mcBrowser.delegate = self
