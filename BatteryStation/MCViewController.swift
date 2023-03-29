@@ -146,7 +146,7 @@ class MCViewController: UIViewController, MCSessionDelegate, MCBrowserViewContro
     func hostSetupStatusView() {
         DispatchQueue.main.async() { [unowned self] in
             if self.isHost_UserDefaultsSetting {
-                setupStatusView() //refreshRootViewController()
+                setupStatusView()
             }
         }
     }
@@ -191,14 +191,14 @@ struct StatusView : View {
             
         }
     }
-}
-
-func refreshRootViewController() { print("\nrefreshing view controller")
-    if let apdel = UIApplication.shared.delegate as? AppDelegate,
-       let window = apdel.window {
-        window.rootViewController = UINavigationController(rootViewController: apdel.mcVC)
-    } else {
-        print("\n\nAPP DELEGATE DOWNCAST FAILURE\n\n")
+    
+    func refreshRootViewController() { print("\nrefreshing view controller")
+        if let apdel = UIApplication.shared.delegate as? AppDelegate,
+           let window = apdel.window {
+            window.rootViewController = UINavigationController(rootViewController: apdel.mcVC)
+        } else {
+            print("\n\nAPP DELEGATE DOWNCAST FAILURE\n\n")
+        }
     }
 }
 
