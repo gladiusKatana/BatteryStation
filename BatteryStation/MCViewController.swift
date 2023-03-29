@@ -99,7 +99,7 @@ class MCViewController: UIViewController, MCSessionDelegate, MCBrowserViewContro
                  didChange state: MCSessionState) {
         switch state {
         case MCSessionState.connected:
-            print("\nConnected: \(peerID.displayName) ... connected peers: \(connectedPeers)")
+            print("\nConnected: \(peerID.displayName) ... connected peers: \(connectedPeers)\n")
             hostSetupStatusView()
             /*DispatchQueue.main.asyncAfter(deadline: .now() + 1.25) { [weak self] in // !!!
              self?.mcBrowser?.dismiss(animated: true)
