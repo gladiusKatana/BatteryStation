@@ -17,12 +17,12 @@ extension MCViewController {
         switch state {
         case MCSessionState.connected:
             print("\nConnected: \(peerID.displayName) ... connected peers: \(connectedPeers)\n")
-            hostSetupStatusView()
+            ///hostSetupStatusView()
             ///DispatchQueue.main.asyncAfter(deadline: .now() + 1.25) { [weak self] in self?.mcBrowser?.dismiss(animated: true) } /// !!!
         case MCSessionState.connecting: print("\nConnecting: \(peerID.displayName)")
         case MCSessionState.notConnected:
             print("\nNot Connected: \(peerID.displayName)")
-            hostSetupStatusView()
+            ///hostSetupStatusView()
         @unknown default:
             //fatalError()
             print("\nUNKNOWN error in sessiondidChange: \(peerID.displayName)\n")
