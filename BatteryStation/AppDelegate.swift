@@ -1,8 +1,7 @@
 //
-//  AppDelegate.swift
 //  BatteryStation
 //
-//  Created by Garth S on 2023-03-27.
+//  Created by Gladius Katana on 2023-03-27.
 //
 
 import UIKit

@@ -14,6 +14,9 @@
 		9F5211AE29D28FC40000D420 /* BatteryStationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5211AD29D28FC40000D420 /* BatteryStationTests.swift */; };
 		9F5211B829D28FC40000D420 /* BatteryStationUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5211B729D28FC40000D420 /* BatteryStationUITests.swift */; };
 		9F5211BA29D28FC40000D420 /* BatteryStationUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5211B929D28FC40000D420 /* BatteryStationUITestsLaunchTests.swift */; };
+		9FCC75DA29D4C53A00822698 /* BatteryMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCC75D929D4C53A00822698 /* BatteryMethods.swift */; };
+		9FCC75DC29D4C7C400822698 /* DelegateMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCC75DB29D4C7C400822698 /* DelegateMethods.swift */; };
+		9FCC75DE29D4C89C00822698 /* StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCC75DD29D4C89C00822698 /* StatusView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +48,9 @@
 		9F5211B329D28FC40000D420 /* BatteryStationUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BatteryStationUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F5211B729D28FC40000D420 /* BatteryStationUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryStationUITests.swift; sourceTree = "<group>"; };
 		9F5211B929D28FC40000D420 /* BatteryStationUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryStationUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		9FCC75D929D4C53A00822698 /* BatteryMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryMethods.swift; sourceTree = "<group>"; };
+		9FCC75DB29D4C7C400822698 /* DelegateMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DelegateMethods.swift; sourceTree = "<group>"; };
+		9FCC75DD29D4C89C00822698 /* StatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +103,9 @@
 			children = (
 				9F52119629D28FC30000D420 /* AppDelegate.swift */,
 				9F52119A29D28FC30000D420 /* MCViewController.swift */,
+				9FCC75D929D4C53A00822698 /* BatteryMethods.swift */,
+				9FCC75DB29D4C7C400822698 /* DelegateMethods.swift */,
+				9FCC75DD29D4C89C00822698 /* StatusView.swift */,
 				9F52119F29D28FC40000D420 /* Assets.xcassets */,
 				9F5211A129D28FC40000D420 /* LaunchScreen.storyboard */,
 				9F5211A429D28FC40000D420 /* Info.plist */,
@@ -251,8 +260,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FCC75DA29D4C53A00822698 /* BatteryMethods.swift in Sources */,
 				9F52119B29D28FC30000D420 /* MCViewController.swift in Sources */,
 				9F52119729D28FC30000D420 /* AppDelegate.swift in Sources */,
+				9FCC75DC29D4C7C400822698 /* DelegateMethods.swift in Sources */,
+				9FCC75DE29D4C89C00822698 /* StatusView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
