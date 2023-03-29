@@ -1,27 +1,5 @@
 import Foundation; import SwiftUI; import MultipeerConnectivity
 
-extension MCViewController {
-    
-    func hostSetupStatusView() {
-        DispatchQueue.main.async() { [unowned self] in
-            if self.isHost_UserDefaultsSetting {
-                setupStatusView()
-            }
-        }
-    }
-    
-    func setupStatusView() {
-        statusView = StatusView(showConnectedPeers: self.$isHost_UserDefaultsSetting, connectedPeers: self.connectedPeers)
-        let childView = UIHostingController(rootView: statusView)
-        childView.view.backgroundColor = .purple // should not see this though
-        
-        self.addChild(childView)
-        childView.view.frame = self.view.bounds
-        self.view.addSubview(childView.view)
-        childView.didMove(toParent: self)
-    }
-}
-
 struct StatusView : View {
     @AppStorage("settingActivated") var isHost_UserDefaultsSetting = true
     @Binding var showConnectedPeers : Bool
@@ -54,6 +32,28 @@ struct StatusView : View {
             window.rootViewController = UINavigationController(rootViewController: apdel.mcVC)
         } else {
             print("\n\nAPP DELEGATE DOWNCAST FAILURE\n\n")
+        }
+    }
+}
+
+extension MCViewController {
+    
+    func setupStatusView() {
+        statusView = StatusView(showConnectedPeers: self.$isHost_UserDefaultsSetting, connectedPeers: self.connectedPeers)
+        let childView = UIHostingController(rootView: statusView)
+        childView.view.backgroundColor = .purple // should not see this though
+        
+        self.addChild(childView)
+        childView.view.frame = self.view.bounds
+        self.view.addSubview(childView.view)
+        childView.didMove(toParent: self)
+    }
+    
+    func hostSetupStatusView() {
+        DispatchQueue.main.async() { [unowned self] in
+            if self.isHost_UserDefaultsSetting {
+                setupStatusView()
+            }
         }
     }
 }
