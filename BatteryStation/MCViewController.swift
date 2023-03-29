@@ -1,50 +1,38 @@
 import UIKit; import SwiftUI; import MultipeerConnectivity
 
 class MCViewController: UIViewController, MCSessionDelegate, MCBrowserViewControllerDelegate {
-    var peerID: MCPeerID! /// The peer ID is simply the name of the current device, which is useful for identifying who is joining a session.
-    var mcSession: MCSession!
-    var mcBrowser: MCBrowserViewController?
-    var mcAdvertiserAssistant: MCAdvertiserAssistant!
-    
     @AppStorage("settingActivated") var isHost_UserDefaultsSetting = true
     
-    var connectedPeers: Int { mcSession.connectedPeers.count }
-    
-    var statusView = StatusView(showConnectedPeers: .constant(false), connectedPeers: 0)
-    
+    var peerID: MCPeerID! /// The peer ID is simply the name of the current device, which is useful for identifying who is joining a session.
+    var mcSession: MCSession!
+    var mcAdvertiserAssistant: MCAdvertiserAssistant!
+    var mcBrowser: MCBrowserViewController?
     var batteryStateString = ""
     var batteryState: UIDevice.BatteryState { UIDevice.current.batteryState }
     var batteryLevel: Float { UIDevice.current.batteryLevel }
+    var connectedPeers: Int { mcSession.connectedPeers.count }
+    var statusView = StatusView(showConnectedPeers: .constant(false), connectedPeers: 0)
     
     override func viewDidLoad() {
         super.viewDidLoad() //; view.backgroundColor = .red
         NotificationCenter.default.addObserver(self, selector: #selector(batteryLevelDidChange), name: UIDevice.batteryLevelDidChangeNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(batteryStateDidChange), name: UIDevice.batteryStateDidChangeNotification, object: nil)
-        
         //setupIDAndSession() /// if called here, browser dismissal via done/cancel will NOT trigger disconnection
     }
     
     override func viewWillAppear(_ animated: Bool) { print("viewWillAppear ... connected peers: \(mcSession != nil ? "\(connectedPeers)" : "[nil because mcSession is nil]")")
         super.viewWillAppear(animated)
-        
         setupIDAndSession() // if called here, browser dismissal via done/cancel WILL trigger disconnection
-        
-        let isHost = isHost_UserDefaultsSetting
-        
         //DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-        if isHost {
+        if isHost_UserDefaultsSetting {
             let hostAction = UIAlertAction(title: "hosting session", style: .default)
             self.startHosting(action: hostAction)
-        }
-        else {
+        } else {
             let joinAction = UIAlertAction(title: "joining session", style: .default)
             self.joinSession(action: joinAction)
         }
-        
         //guard let self = self else { return }
-        
         setupStatusView()
-        
         //}
     }
     
@@ -54,7 +42,7 @@ class MCViewController: UIViewController, MCSessionDelegate, MCBrowserViewContro
         mcSession.delegate = self
     }
     
-    @objc func batteryLevelDidChange(_ notification: Notification) {    //print("\n\nBATTERY LEVEL:\n\(batteryLevel * 100)\n")
+    @objc func batteryLevelDidChange(_ notification: Notification) { //print("\n\nBATTERY LEVEL:\n\(batteryLevel * 100)\n")
         trySendingBatteryData()
     }
     
@@ -65,7 +53,7 @@ class MCViewController: UIViewController, MCSessionDelegate, MCBrowserViewContro
         case .full: batteryStateString = "full"
         @unknown default:
             //fatalError()
-            print("\nUNKNOWN error with battery state\n")
+            batteryStateString = "UNKNOWN error with battery state" ; print("\n\(batteryStateString)\n")
         }
         trySendingBatteryData()
     }
@@ -178,6 +166,7 @@ class MCViewController: UIViewController, MCSessionDelegate, MCBrowserViewContro
 struct StatusView : View {
     @AppStorage("settingActivated") var isHost_UserDefaultsSetting = true
     @Binding var showConnectedPeers : Bool
+    
     var connectedPeers = -1
     
     var body: some View {
