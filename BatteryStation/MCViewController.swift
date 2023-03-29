@@ -21,19 +21,13 @@ class MCViewController: UIViewController, MCSessionDelegate, MCBrowserViewContro
         NotificationCenter.default.addObserver(self, selector: #selector(batteryLevelDidChange), name: UIDevice.batteryLevelDidChangeNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(batteryStateDidChange), name: UIDevice.batteryStateDidChangeNotification, object: nil)
         
-        //*
-        //peerID = MCPeerID(displayName: UIDevice.current.name)
-        //mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
-        //mcSession.delegate = self
+        //setupIDAndSession() /// if called here, browser dismissal via done/cancel will NOT trigger disconnection
     }
     
     override func viewWillAppear(_ animated: Bool) { print("viewWillAppear ... connected peers: \(mcSession != nil ? "\(connectedPeers)" : "[nil because mcSession is nil]")")
         super.viewWillAppear(animated)
         
-        //*
-        peerID = MCPeerID(displayName: UIDevice.current.name)
-        mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
-        mcSession.delegate = self
+        setupIDAndSession() // if called here, browser dismissal via done/cancel WILL trigger disconnection
         
         let isHost = isHost_UserDefaultsSetting
         
@@ -52,6 +46,12 @@ class MCViewController: UIViewController, MCSessionDelegate, MCBrowserViewContro
         setupStatusView()
         
         //}
+    }
+    
+    private func setupIDAndSession() {
+        peerID = MCPeerID(displayName: UIDevice.current.name)
+        mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
+        mcSession.delegate = self
     }
     
     @objc func batteryLevelDidChange(_ notification: Notification) {    //print("\n\nBATTERY LEVEL:\n\(batteryLevel * 100)\n")
