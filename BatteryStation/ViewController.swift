@@ -15,7 +15,6 @@ class MCViewController: UIViewController, MCSessionDelegate, MCBrowserViewContro
         super.viewDidLoad() //; view.backgroundColor = .red
         NotificationCenter.default.addObserver(self, selector: #selector(batteryLevelDidChange), name: UIDevice.batteryLevelDidChangeNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(batteryStateDidChange), name: UIDevice.batteryStateDidChangeNotification, object: nil)
-        setupIDAndSession()
         startAdvertising(action: UIAlertAction(title: "advertising session", style: .default))
         browseForConnections(action: UIAlertAction(title: "joining session", style: .default))
     }
@@ -25,7 +24,7 @@ class MCViewController: UIViewController, MCSessionDelegate, MCBrowserViewContro
         setupStatusView()
     }
     
-    private func setupIDAndSession() {
+    func setupIDAndSession() {
         peerID = MCPeerID(displayName: UIDevice.current.name)
         mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
         mcSession.delegate = self

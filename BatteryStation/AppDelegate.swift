@@ -17,6 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UIDevice.current.isBatteryMonitoringEnabled = true
         
+        mcVC.setupIDAndSession()
+        
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = .orange // should not appear if root view controller has a background color other than .clear
         window?.makeKeyAndVisible()
