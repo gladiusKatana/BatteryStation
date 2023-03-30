@@ -4,11 +4,12 @@
 //  Created by Gladius Katana on 2023-03-27.
 //
 
-import UIKit
+import UIKit; import SwiftUI
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    @AppStorage("settingActivated") var peerIDDisplayName = ""
     var window: UIWindow?
     var mcVC = MCViewController()
 
@@ -17,7 +18,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UIDevice.current.isBatteryMonitoringEnabled = true
         
-        mcVC.setupIDAndSession()
+        if peerIDDisplayName == "" {
+            peerIDDisplayName = UIDevice.current.name
+        }
+        mcVC.setupIDAndSession(withDisplayName: peerIDDisplayName)
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = .orange // should not appear if root view controller has a background color other than .clear

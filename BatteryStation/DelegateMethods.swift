@@ -4,6 +4,7 @@ extension MCViewController {
     
     func browserViewControllerDidFinish(_ browserViewController: MCBrowserViewController) {
         ////trySendingBatteryData() /// !!!
+        trySendingTestData()
         dismiss(animated: true)
     }
     
