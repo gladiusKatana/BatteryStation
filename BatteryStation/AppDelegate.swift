@@ -31,9 +31,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    func applicationWillResignActive(_ application: UIApplication) {
-        mcVC.mcSession.disconnect()
-    }
+//    //func applicationWillResignActive(_ application: UIApplication) {
+//        //mcVC.mcSession.disconnect()
+//    //}
 
 }
 
