@@ -24,6 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+    // Multipeer Communications is not supported while operating in the background. See: https://developer.apple.com/documentation/multipeerconnectivity
+    
 //    //func applicationWillResignActive(_ application: UIApplication) {
 //        //mcVC.mcSession.disconnect()
 //    //}
