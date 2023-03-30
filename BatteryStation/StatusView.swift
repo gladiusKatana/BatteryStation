@@ -3,22 +3,43 @@ import Foundation; import SwiftUI; import MultipeerConnectivity
 struct StatusView : View {
     
     var connectedPeers = -1
+    var peerDisplayNames = [String]()
     
     var body: some View {
         Form {
             let s = connectedPeers == 1 ? "" : "s"
-            Text("\(connectedPeers) peer\(s) connected")
+            let cln = connectedPeers == 0 ? "" : ":"
+            Text("\(connectedPeers) peer\(s) connected\(cln)")
+            
+            ForEach(peerDisplayNames, id: \.self) {
+                Text($0)
+                    .foregroundColor(.blue)
+            }
+        }
+        if connectedPeers < 6 { // 6 should be the limit as per MultipeerConnectivity framework
+            Spacer()
+            Form{
+                Button("Tap to browse for more peers") {
+                    //print("button pressed")
+                    if let apdel = UIApplication.shared.delegate as? AppDelegate {
+                        apdel.mcVC.present(apdel.mcVC.mcBrowser, animated: true)
+                    } else {
+                        print("\n\nAPP DELEGATE DOWNCAST FAILURE\n\n")
+                    }
+                }
+            }
         }
     }
-
+    
 }
 
 extension MCViewController {
     
     func setupStatusView() {
-        statusView = StatusView(connectedPeers: self.connectedPeers)
+        let displayNames = mcSession.connectedPeers.map{$0.displayName}
+        statusView = StatusView(connectedPeers: self.connectedPeers, peerDisplayNames: displayNames)
         let childView = UIHostingController(rootView: statusView)
-        childView.view.backgroundColor = .purple // should not see this though
+        childView.view.backgroundColor = .blue // should not see this though
         
         self.addChild(childView)
         childView.view.frame = self.view.bounds
