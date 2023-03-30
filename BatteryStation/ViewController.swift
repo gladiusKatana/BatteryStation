@@ -6,12 +6,21 @@ class MCViewController: UIViewController, MCSessionDelegate, MCBrowserViewContro
     var mcSession: MCSession!
     var mcAdvertiserAssistant: MCAdvertiserAssistant!
     var mcBrowser: MCBrowserViewController!
-    var batteryStateString = ""
     var batteryState: UIDevice.BatteryState { UIDevice.current.batteryState }
     var batteryLevel: Float                 { UIDevice.current.batteryLevel }
     var connections: Int                    { mcSession.connectedPeers.count }
     var peerDictionary: [String:String] = [:]
     var statusView = StatusView(connectedPeers: [])
+    
+    var batteryStateName: String {
+        switch batteryState {
+        case .unknown: return "unknown"
+        case .unplugged: return "not charging"
+        case .charging: return "charging"
+        case .full: return "full"
+        @unknown default: return "default"
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad() //; view.backgroundColor = .red

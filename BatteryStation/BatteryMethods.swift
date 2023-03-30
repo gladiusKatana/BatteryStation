@@ -1,26 +1,10 @@
-import Foundation; import MultipeerConnectivity
+import UIKit; import MultipeerConnectivity
 
 extension MCViewController {
     
-    @objc func batteryLevelDidChange(_ notification: Notification) { //print("\n\nBATTERY LEVEL:\n\(batteryLevel * 100)\n")
-        trySendingBatteryData()
-    }
-    
-    
-    @objc func batteryStateDidChange(_ notification: Notification) {
-        switch batteryState {
-        case .unplugged, .unknown: batteryStateString = "not charging"
-        case .charging: batteryStateString = "charging"
-        case .full: batteryStateString = "full"
-        @unknown default: batteryStateString = "UNKNOWN error with battery state" ; print("\n\(batteryStateString)\n")
-        }
-        trySendingBatteryData()
-    }
-    
-    
     func trySendingBatteryData() {
         if mcSession.connectedPeers.count > 0 {
-            let data = Data("\(UIDevice.current.name)~ (\(batteryLevel * 100)%, \(batteryStateString))".utf8) /// * replace UIDevice.current.name w/  peerIDDisplayName
+            let data = Data("\(UIDevice.current.name)~ (\(batteryLevel * 100)%, \(batteryStateName))".utf8) /// * replace UIDevice.current.name w/  peerIDDisplayName
             do {
                 try mcSession.send(data, toPeers: mcSession.connectedPeers, with: .reliable)
             } catch let error as NSError {
@@ -31,4 +15,15 @@ extension MCViewController {
         } else { print("\nno connected peers\n") }
     }
     
+    
+    @objc func batteryLevelDidChange(_ notification: Notification) { //print("\n\nBATTERY LEVEL:\n\(batteryLevel * 100)\n")
+        trySendingBatteryData()
+    }
+    
+    
+    @objc func batteryStateDidChange(_ notification: Notification) {
+        trySendingBatteryData()
+    }
+    
 }
+
