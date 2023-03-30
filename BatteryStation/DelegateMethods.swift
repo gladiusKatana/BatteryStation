@@ -27,9 +27,11 @@ extension MCViewController {
         switch state {
         case MCSessionState.connected:
             print("\nConnected: \(peerID.displayName) ... connected peers: \(connectedPeers)\n")
+            DispatchQueue.main.async { [weak self] in self?.setupStatusView() }
         case MCSessionState.connecting: print("\nConnecting: \(peerID.displayName)")
         case MCSessionState.notConnected:
             print("\nNot Connected: \(peerID.displayName)")
+            DispatchQueue.main.async { [weak self] in self?.setupStatusView() }
         @unknown default:
             //fatalError()
             print("\nUNKNOWN error in sessiondidChange: \(peerID.displayName)\n")
