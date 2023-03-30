@@ -4,7 +4,7 @@
 //  Created by Gladius Katana on 2023-03-27.
 //
 
-import UIKit; import SwiftUI
+import Foundation; import SwiftUI
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -30,12 +30,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = UINavigationController(rootViewController: mcVC)
         return true
     }
+    
+    func applicationWillResignActive(_ application: UIApplication) {
+        mcVC.mcSession.disconnect()
+    }
 
-//    func applicationWillResignActive(_ application: UIApplication) {
-////        print("[applicationWillResignActive] battery level: \(mcVC.batteryLevel)\nbattery state: \(mcVC.batteryState)")
-//        let batteryState = UIDevice.current.batteryState
-//        let batteryLevel = UIDevice.current.batteryLevel
-//        print("\n[applicationWillResignActive] battery level: \(batteryLevel)\nbattery state: \(batteryState)")
-//    }
 }
 
