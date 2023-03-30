@@ -2,34 +2,6 @@ import Foundation; import MultipeerConnectivity
 
 extension MCViewController {
     
-    func browserViewControllerDidFinish(_ browserViewController: MCBrowserViewController) {
-        ////trySendingBatteryData() /// !!!
-        trySendingTestData()
-        dismiss(animated: true)
-    }
-    
-    func browserViewControllerWasCancelled(_ browserViewController: MCBrowserViewController) {
-        ////trySendingBatteryData() /// !!!
-        dismiss(animated: true)
-    }
-    
-    func session(_ session: MCSession, peer peerID: MCPeerID,
-                 didChange state: MCSessionState) {
-        switch state {
-        case MCSessionState.connected:
-            print("\nConnected: \(peerID.displayName) ... connected peers: \(connectedPeers)\n")
-            ///hostSetupStatusView()
-            ///DispatchQueue.main.asyncAfter(deadline: .now() + 1.25) { [weak self] in self?.mcBrowser?.dismiss(animated: true) } /// !!!
-        case MCSessionState.connecting: print("\nConnecting: \(peerID.displayName)")
-        case MCSessionState.notConnected:
-            print("\nNot Connected: \(peerID.displayName)")
-            ///hostSetupStatusView()
-        @unknown default:
-            //fatalError()
-            print("\nUNKNOWN error in sessiondidChange: \(peerID.displayName)\n")
-        }
-    }
-    
     func session(_ session: MCSession,
                  didReceive data: Data, fromPeer peerID: MCPeerID) {
         let str = String(decoding: data, as: UTF8.self)
@@ -50,11 +22,33 @@ extension MCViewController {
         }
     }
     
+    func session(_ session: MCSession, peer peerID: MCPeerID,
+                 didChange state: MCSessionState) {
+        switch state {
+        case MCSessionState.connected:
+            print("\nConnected: \(peerID.displayName) ... connected peers: \(connectedPeers)\n")
+        case MCSessionState.connecting: print("\nConnecting: \(peerID.displayName)")
+        case MCSessionState.notConnected:
+            print("\nNot Connected: \(peerID.displayName)")
+        @unknown default:
+            //fatalError()
+            print("\nUNKNOWN error in sessiondidChange: \(peerID.displayName)\n")
+        }
+    }
+    
     func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
         dismiss(animated: true)
     }
     func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
         dismiss(animated: true)
     }
-    func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) { }
+    func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
+    }
+
+    func browserViewControllerDidFinish(_ browserViewController: MCBrowserViewController) {
+        dismiss(animated: true)
+    }
+    func browserViewControllerWasCancelled(_ browserViewController: MCBrowserViewController) {
+        dismiss(animated: true)
+    }
 }

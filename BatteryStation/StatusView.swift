@@ -30,7 +30,6 @@ struct StatusView : View {
             }
         }
     }
-    
 }
 
 extension MCViewController {
@@ -47,11 +46,4 @@ extension MCViewController {
         childView.didMove(toParent: self)
     }
     
-//    func hostSetupStatusView() {
-//        DispatchQueue.main.async() { [unowned self] in
-//            ///if self.isHost_UserDefaultsSetting {
-//                setupStatusView()
-//            ///}
-//        }
-//    }
 }

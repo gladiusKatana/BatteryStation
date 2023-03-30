@@ -1,9 +1,3 @@
-//
-//  BatteryStation
-//
-//  Created by Gladius Katana on 2023-03-27.
-//
-
 import Foundation; import SwiftUI
 
 @main
@@ -14,7 +8,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var mcVC = MCViewController()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
         
         UIDevice.current.isBatteryMonitoringEnabled = true
         

@@ -1,6 +1,7 @@
 import UIKit; import SwiftUI; import MultipeerConnectivity
 
 class MCViewController: UIViewController, MCSessionDelegate, MCBrowserViewControllerDelegate {
+    
     var peerID: MCPeerID! /// The peer ID is simply the name of the current device, which is useful for identifying who is joining a session.
     var mcSession: MCSession!
     var mcAdvertiserAssistant: MCAdvertiserAssistant!
