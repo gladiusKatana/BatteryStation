@@ -4,37 +4,33 @@ extension MCViewController {
     
     func session(_ session: MCSession,
                  didReceive data: Data, fromPeer peerID: MCPeerID) {
-        let str = String(decoding: data, as: UTF8.self)
-        let alert = UIAlertController(title: "Battery Level Update", message: str, preferredStyle: .alert)  // [\(connectedPeers) connected peers]
         
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: { _ in // action in
-            /*switch action.style {
-             case .default: print("\n\nalert-tapped-OK--default\n\n")
-             case .cancel: print("\n\nalert-tapped-OK--cancel\n\n")
-             case .destructive: print("\n\nalert-tapped-OK--destructive")
-             @unknown default:
-             print("\nUNKNOWN error in session didReceive\n")
-             fatalError()
-             }*/
-        }))
-        DispatchQueue.main.async { [weak self] in
-            self?.present(alert, animated: true, completion: nil)
+        let str = String(decoding: data, as: UTF8.self)
+        let components = str.components(separatedBy: "~")
+        guard let key = components.first,
+              let value = components.last else {
+            return
         }
+        
+        /// iOS >= 16: to sort out duplication of peerIDs (ie to override default generic names), may require work w/ Apple on permissions ... see Documentation [will add link here]
+        if let _ = peerDictionary[key] {
+            print("\n\n! WILL OVERRIDE DUPLICATE DEVICE-NAME KEY'S VALUE IN PEERDICTIONARY")
+        }
+        
+        peerDictionary[key] = value
+        
+        DispatchQueue.main.async { [weak self] in self?.setupStatusView() }
     }
     
     func session(_ session: MCSession, peer peerID: MCPeerID,
                  didChange state: MCSessionState) {
         switch state {
-        case MCSessionState.connected:
-            print("\nConnected: \(peerID.displayName) ... connected peers: \(connectedPeers)\n")
+        case .connecting:   print("\nConnecting: \(peerID.displayName)")
+        case .notConnected: print("\nNot Connected: \(peerID.displayName)")
             DispatchQueue.main.async { [weak self] in self?.setupStatusView() }
-        case MCSessionState.connecting: print("\nConnecting: \(peerID.displayName)")
-        case MCSessionState.notConnected:
-            print("\nNot Connected: \(peerID.displayName)")
-            DispatchQueue.main.async { [weak self] in self?.setupStatusView() }
-        @unknown default:
-            //fatalError()
-            print("\nUNKNOWN error in sessiondidChange: \(peerID.displayName)\n")
+        case .connected:    print("\nConnected: \(peerID.displayName) | connections: \(connections)\n")
+            trySendingBatteryData()
+        @unknown default:   print("\nUNKNOWN error in sessiondidChange: \(peerID.displayName)\n")
         }
     }
     
@@ -46,7 +42,7 @@ extension MCViewController {
     }
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
     }
-
+    
     func browserViewControllerDidFinish(_ browserViewController: MCBrowserViewController) {
         dismiss(animated: true)
     }

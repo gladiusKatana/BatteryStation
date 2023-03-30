@@ -2,25 +2,26 @@ import Foundation; import SwiftUI; import MultipeerConnectivity
 
 struct StatusView : View {
     
-    var connectedPeers = -1
-    var peerDisplayNames = [String]()
+    var connectedPeers: [MCPeerID] = []
+    var peerDictionary: [String:String] = [:]
+    var connections: Int { connectedPeers.count }
     
     var body: some View {
         Form {
-            let s = connectedPeers == 1 ? "" : "s"
-            let cln = connectedPeers == 0 ? "" : ":"
-            Text("\(connectedPeers) peer\(s) connected\(cln)")
+            let s = connections == 1 ? "" : "s"
+            let cln = connections == 0 ? "" : ":"
+            Text("\(connections) peer\(s) connected\(cln)")
             
-            ForEach(peerDisplayNames, id: \.self) {
-                Text($0)
+            ForEach(connectedPeers, id: \.self) {
+                let name = $0.displayName
+                Text("\(name) \(peerDictionary[name] ?? "(nil value @ key \(name)")")
                     .foregroundColor(.blue)
             }
         }
-        if connectedPeers < 6 { // 6 should be the limit as per MultipeerConnectivity framework
+        if connections < 6 { // 6 should be the limit as per MultipeerConnectivity framework
             Spacer()
             Form{
                 Button("Tap to browse for more peers") {
-                    //print("button pressed")
                     if let apdel = UIApplication.shared.delegate as? AppDelegate {
                         apdel.mcVC.present(apdel.mcVC.mcBrowser, animated: true)
                     } else {
@@ -35,10 +36,9 @@ struct StatusView : View {
 extension MCViewController {
     
     func setupStatusView() {
-        let displayNames = mcSession.connectedPeers.map{$0.displayName}
-        statusView = StatusView(connectedPeers: self.connectedPeers, peerDisplayNames: displayNames)
+        statusView = StatusView(connectedPeers: mcSession.connectedPeers, peerDictionary: peerDictionary)
         let childView = UIHostingController(rootView: statusView)
-        childView.view.backgroundColor = .blue // should not see this though
+        childView.view.backgroundColor = .darkGray
         
         self.addChild(childView)
         childView.view.frame = self.view.bounds

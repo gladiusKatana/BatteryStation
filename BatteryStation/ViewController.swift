@@ -8,9 +8,10 @@ class MCViewController: UIViewController, MCSessionDelegate, MCBrowserViewContro
     var mcBrowser: MCBrowserViewController!
     var batteryStateString = ""
     var batteryState: UIDevice.BatteryState { UIDevice.current.batteryState }
-    var batteryLevel: Float { UIDevice.current.batteryLevel }
-    var connectedPeers: Int { mcSession.connectedPeers.count }
-    var statusView = StatusView(connectedPeers: 0)
+    var batteryLevel: Float                 { UIDevice.current.batteryLevel }
+    var connections: Int                    { mcSession.connectedPeers.count }
+    var peerDictionary: [String:String] = [:]
+    var statusView = StatusView(connectedPeers: [])
     
     override func viewDidLoad() {
         super.viewDidLoad() //; view.backgroundColor = .red
@@ -20,7 +21,7 @@ class MCViewController: UIViewController, MCSessionDelegate, MCBrowserViewContro
         startAdvertising(action: UIAlertAction(title: "advertising session", style: .default))
     }
     
-    override func viewWillAppear(_ animated: Bool) { print("viewWillAppear ... connected peers: \(mcSession != nil ? "\(connectedPeers)" : "[nil because mcSession is nil]")")
+    override func viewWillAppear(_ animated: Bool) { print("viewWillAppear | connections: \(mcSession != nil ? "\(connections)" : "[nil, as mcSession is nil]")")
         super.viewWillAppear(animated)
         setupStatusView()
     }

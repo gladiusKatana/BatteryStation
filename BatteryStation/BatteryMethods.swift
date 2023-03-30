@@ -12,9 +12,7 @@ extension MCViewController {
         case .unplugged, .unknown: batteryStateString = "not charging"
         case .charging: batteryStateString = "charging"
         case .full: batteryStateString = "full"
-        @unknown default:
-            //fatalError()
-            batteryStateString = "UNKNOWN error with battery state" ; print("\n\(batteryStateString)\n")
+        @unknown default: batteryStateString = "UNKNOWN error with battery state" ; print("\n\(batteryStateString)\n")
         }
         trySendingBatteryData()
     }
@@ -22,7 +20,7 @@ extension MCViewController {
     
     func trySendingBatteryData() {
         if mcSession.connectedPeers.count > 0 {
-            let data = Data("Paired device's battery level:\n\(batteryLevel * 100)% [\(batteryStateString)]".utf8)
+            let data = Data("\(UIDevice.current.name)~ (\(batteryLevel * 100)%, \(batteryStateString))".utf8) /// * replace UIDevice.current.name w/  peerIDDisplayName
             do {
                 try mcSession.send(data, toPeers: mcSession.connectedPeers, with: .reliable)
             } catch let error as NSError {
