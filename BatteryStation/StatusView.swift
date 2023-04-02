@@ -38,7 +38,7 @@ extension MCViewController {
     func setupStatusView() {
         statusView = StatusView(connectedPeers: mcSession.connectedPeers, peerDictionary: peerDictionary)
         let childView = UIHostingController(rootView: statusView)
-        childView.view.backgroundColor = .darkGray
+        childView.view.backgroundColor = .systemGray6
         
         self.addChild(childView)
         childView.view.frame = self.view.bounds
