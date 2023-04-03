@@ -4,7 +4,7 @@ extension MCViewController {
     
     func trySendingBatteryData() {
         if mcSession.connectedPeers.count > 0 {
-            let data = Data("\(UIDevice.current.name)~ (\(batteryLevel * 100)%, \(batteryStateName))".utf8) /// * replace UIDevice.current.name w/  peerIDDisplayName
+            let data = Data("\(UIDevice.current.name)\(componentSeparator) (\(batteryLevel * 100)%, \(batteryStateName))".utf8) /// * replace UIDevice.current.name w/  peerIDDisplayName
             do {
                 try mcSession.send(data, toPeers: mcSession.connectedPeers, with: .reliable)
             } catch let error as NSError {

@@ -6,7 +6,7 @@ extension MCViewController {
                  didReceive data: Data, fromPeer peerID: MCPeerID) {
         
         let str = String(decoding: data, as: UTF8.self)
-        let components = str.components(separatedBy: "~")
+        let components = str.components(separatedBy: componentSeparator)
         guard let key = components.first,
               let value = components.last else {
             return

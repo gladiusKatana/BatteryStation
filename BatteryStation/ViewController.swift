@@ -11,6 +11,7 @@ class MCViewController: UIViewController, MCSessionDelegate, MCBrowserViewContro
     var connections: Int                    { mcSession.connectedPeers.count }
     var peerDictionary: [String:String] = [:]
     var statusView = StatusView(connectedPeers: [])
+    let componentSeparator = "~"
     
     var batteryStateName: String {
         switch batteryState {
