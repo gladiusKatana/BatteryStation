@@ -15,7 +15,7 @@ class MCViewController: UIViewController, MCSessionDelegate, MCBrowserViewContro
     
     var batteryStateName: String {
         switch batteryState {
-        case .unknown: return "unknown"
+        case .unknown: return "unknown status"
         case .unplugged: return "not charging"
         case .charging: return "charging"
         case .full: return "full"
