@@ -12,7 +12,7 @@ extension MCViewController {
             return
         }
         
-        /// iOS >= 16: to sort out duplication of peerIDs (ie to override default generic names), may require work w/ Apple on permissions ... see Documentation:
+        /// iOS >= 16: to sort out duplication of peerIDs (ie to override default generic names), will require work w/ Apple on permissions ... see Documentation:
         /// https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_device-information_user-assigned-device-name
 //        if let _ = peerDictionary[key] {
 //            print("\n\n! WILL OVERRIDE DUPLICATE DEVICE-NAME KEY'S VALUE IN PEERDICTIONARY")
