@@ -5,14 +5,14 @@ after establishing a simple connection via Wifi/Bluetooth [1].
 
 To connect:
 
-- Open app; the Browser screen appears (or hit "tap to browse for more peers" to show Browser again
+- Open app; the Browser screen appears (or hit "Tap to browse for more peers" to show Browser again later
 - Select from list of devices that are in-range (sends a connection-invitation to that device)
 - On the selected device, hit "Accept" to connect (accepts the connection-invitation)
 
 To see battery info:
 
-- Hit "Done" from Browser view to show main screen (connected peers screen)
-- Note, due to Apple-imposed limitations, if the app is terminated or dismissed to the background on any connected device, its connection is dropped and within 10 seconds will be removed from all other connected peer devices' display (list or menu)
+- Hit "Done" or "Cancel" from Browser view to show main screen (connected peers screen)
+- Note, due to Apple-imposed limitations, if the app is terminated or dismissed to the background on any connected device, its connection is dropped and within 10 seconds will be removed from all other connected peer devices' displays (list or menu)
 
 [Also see "Notes" below for more about Wifi/Bluetooth connections and Apple's imposed limitations on using these technologies.]
 
@@ -31,18 +31,26 @@ From Apple Docs., "In iOS, [MultipeerConnectivity] uses infrastructure Wi-Fi net
 
 [2] Limitations:
 
-Unfortunately, Apple imposes limitations on iOS devices due to their framework engineering decisions:
-- (a) background execution prohibited ... MultipeerConnectivity does not permit wireless connection to/from a device once the app is dismissed to the background or closed on that device
-- (b) pure bluetooth not supported ... It was found that Bluetooth is also not supported by Apple for this use-case of continuous connection and data transfer between iOS devices. This used to work using CoreBluetooth, but was deprecated by Apple for newer iOS versions (just try connecting any iOS device from within another iOS device via Settings app / "Bluetooth" -- most likely it will say "Pairing Unsuccessful / [device] is not supported" or "/ Make sure [device] is turned on, in range,...")
-- (c) device names permissions ... this is a minor issue (it can be removed by applying to "request the entitlement" required by Apple) - but on newer devices (iOS >= 16), custom device names (under Settings app / General/About/Name), are NOT recognized and are replaced with generic ones (eg. "iPhone"), which creates ambiguity in managing multiple device-connections
+Unfortunately, Apple imposes several limitations on iOS devices by their framework engineering decisions; those relevant to this use-case were found at time of writing to be:
+- (a) Background execution prohibited ... MultipeerConnectivity does not permit wireless connection to/from a device once the app is dismissed to the background or closed on that device
+- (b) Regular Bluetooth connection not supported ... It was found that for newer iOS versions, Bluetooth is also not supported by Apple for this use-case of continuous connection and data transfer between iOS devices. This used to work using CoreBluetooth, but was deprecated
+- (c) Device names permissions ... this is a minor issue (it can be removed by applying to "request the entitlement" required by Apple) - but on newer devices (iOS >= 16), custom device names (under Settings app / General/About/Name), are NOT recognized by default and are replaced with generic ones (eg. "iPhone"), creating ambiguity in managing multiple device-connections
 - * Developer's note, (c) will be addressed when I get some free time, especially if this app is submitted to the App Store -gladius
 
 [3] Documentation:
 
 - (a) above: see  https://developer.apple.com/documentation/multipeerconnectivity - from Docs.: "If the app moves into the background, the framework stops advertising and browsing and disconnects any open sessions. Upon returning to the foreground, the framework automatically resumes advertising and browsing, but the developer must reestablish any closed sessions."
-- for more insight on (b) above, see: https://discussions.apple.com/docs/DOC-7722
+- (b) above: To test this on your own devices, just try connecting over Bluetooth to any iOS device from within another iOS device via Settings/Bluetooth -- most likely it will say "Pairing Unsuccessful / [device] is not supported" or "/ Make sure [device] is turned on, in range,..."). For more insight on this see: https://discussions.apple.com/docs/DOC-7722
 - (c) above: https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_device-information_user-assigned-device-name
 
 Contributions:
 
-- Forks and pull requests are warmly encouraged for anyone who is interested in this framework, this project was quickly created with a purposely-simple design precisely to be a test-bed for working with the powerful yet compromise-ridden framework that is MultipeerConnectivity, as much as it was for this app's specific function.
+- Forks and pull requests warmly encouraged, for anyone who is interested in this framework. This project was quickly created with a purposely-simple design precisely to be a test-bed for working with the powerful yet compromise-ridden MultipeerConnectivity framework, as much as for this app's narrow function.
+
+Todo list:
+
+- Implementing a nicer way to "reestablish any closed sessions" [ie. from Documentation quote in (a) above) 
+
+-> that is, upon the disconnection of one peer, for all 'other' peers to detect, and save state of, this disconnection event (eg with an AppDelegate Bool) to later allow these 'others' to send a new connection invitation by triggering a trySendingBatteryData() call once a new connection is detected
+
+- Can show if a peer device is in Low Power Mode?
